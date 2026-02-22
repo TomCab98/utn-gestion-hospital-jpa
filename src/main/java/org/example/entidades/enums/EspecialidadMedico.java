@@ -1,0 +1,16 @@
+package org.example.entidades.enums;
+
+public enum EspecialidadMedico {
+  CARDIOLOGIA,
+  NEUROLOGIA,
+  PEDIATRIA,
+  TRAUMATOLOGIA,
+  GINECOLOGIA,
+  UROLOGIA,
+  OFTALMOLOGIA,
+  DERMATOLOGIA,
+  PSIQUIATRIA,
+  MEDICINA_GENERAL,
+  CIRUGIA_GENERAL,
+  ANESTESIOLOGIA
+}
