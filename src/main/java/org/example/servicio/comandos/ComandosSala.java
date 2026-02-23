@@ -21,7 +21,7 @@ public class ComandosSala {
 
   public Sala crearSala() {
     System.out.println("\n=== Formulario de creacion de sala ===");
-    System.out.print("Número de sala: ");
+    System.out.print("Numero de sala: ");
     String numero = SCANNER.nextLine().trim();
 
     TipoSala tipoSala = null;
@@ -45,5 +45,12 @@ public class ComandosSala {
         .numero(numero)
         .tipo(tipoSala)
         .build();
+  }
+
+  public void mostrarSalas(Departamento departamento) {
+    System.out.println("=== Salas del Departamento " + departamento.getNombre() + " ===");
+    departamento.getSalas().forEach(sala -> {
+      System.out.println("Sala: " + sala.getNumero() + " - Tipo: " + sala.getTipo());
+    });
   }
 }

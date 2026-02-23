@@ -148,7 +148,6 @@ public class Hospital {
     return !pacientes.isEmpty();
   }
 
-  // Reemplazar o agregar en `Hospital.java`
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();

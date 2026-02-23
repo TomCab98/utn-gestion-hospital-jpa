@@ -31,7 +31,7 @@ public class ComandosHospital {
     while (true) {
     mostrarMenu();
       String opcion = SCANNER.nextLine().trim();
-      if (opcion.equalsIgnoreCase("5")) {
+      if (opcion.equalsIgnoreCase("7")) {
         break;
       }
 
@@ -48,6 +48,12 @@ public class ComandosHospital {
         case "4":
           verDepartamentos();
           break;
+        case "5":
+          crearSala();
+          break;
+        case "6":
+          verDepartamentos();
+          break;
         default:
           System.out.println("Opcion no valida. Intente nuevamente.");
       }
@@ -60,7 +66,9 @@ public class ComandosHospital {
     System.out.println("2. Ver Hospitales");
     System.out.println("3. Crear departamento");
     System.out.println("4. Ver departamentos");
-    System.out.println("5. Volver al menu principal");
+    System.out.println("5. Crear sala");
+    System.out.println("6. Ver salas");
+    System.out.println("7. Volver al menu principal");
     System.out.print("\nopcion > ");
   }
 
@@ -108,20 +116,8 @@ public class ComandosHospital {
     return nuevoHospital;
   }
 
-  public Hospital actualizarHospital(Hospital hospital) {
-    return hospitalRepository.update(hospital);
-  }
-
   private void agregarDepartamento() {
     Hospital hospital = seleccionarHospital();
-    Departamento departamento = departamentosService.crearDepartamento();
-    hospital.agregarDepartamento(departamento);
-
-    Hospital creado = actualizarHospital(hospital);
-    System.out.println("\nDepartamento: " + departamento.getNombre() + "creado exitosamente en el hospital " + creado.getNombre());
-  }
-
-  public void agregarDepartamento(Hospital hospital) {
     Departamento departamento = departamentosService.crearDepartamento();
     hospital.agregarDepartamento(departamento);
 
@@ -156,12 +152,27 @@ public class ComandosHospital {
       System.out.println("Hospital no encontrado. Intente nuevamente.");
       return;
     }
-    departamentosService.mostrarMenuDepartamentos(hospital);
+    departamentosService.mostrarDepartamentos(hospital);
   }
 
   private void imprimirHospitalesParaSeleccion() {
     hospitalRepository.findAll().forEach(h -> {
       System.out.println("ID: " + h.getId() + " - Nombre: " + h.getNombre());
     });
+  }
+
+  private void crearSala() {
+    Hospital hospital = seleccionarHospital();
+    departamentosService.agregarSala(hospital);
+  }
+
+  private void verSalas() {
+    Hospital hospital = seleccionarHospital();
+    hospital = hospitalRepository.findByIdWithDepartamentosDetalles(hospital.getId()).orElse(null);
+    if (hospital == null) {
+      System.out.println("Hospital no encontrado. Intente nuevamente.");
+      return;
+    }
+    departamentosService.mostrarSalas(hospital);
   }
 }

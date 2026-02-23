@@ -33,4 +33,19 @@ public class DepartamentoRepository extends GenericRepository<Departamento, Long
       throw new PersistenceException("No se pudo buscar los departamentos", e);
     }
   }
+
+  public List<Departamento> findByHospitalWithSalas(Long hospitalId) {
+    try (EntityManager em = createEntityManager()) {
+      return em.createQuery(
+              "SELECT DISTINCT d FROM Departamento d " +
+                  "LEFT JOIN FETCH d.salas " +
+                  "WHERE d.hospital.id = :hospitalId",
+              Departamento.class)
+          .setParameter("hospitalId", hospitalId)
+          .getResultStream()
+          .toList();
+    } catch (Exception e) {
+      throw new PersistenceException("No se pudo buscar los departamentos con salas", e);
+    }
+  }
 }

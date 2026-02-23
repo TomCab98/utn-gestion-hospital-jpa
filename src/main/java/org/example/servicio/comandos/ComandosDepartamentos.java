@@ -4,7 +4,6 @@ import static org.example.Main.SCANNER;
 import static org.example.servicio.Utils.parseLongOrNull;
 
 import java.util.List;
-import java.util.Optional;
 import org.example.entidades.Departamento;
 import org.example.entidades.Hospital;
 import org.example.entidades.Sala;
@@ -15,7 +14,6 @@ public class ComandosDepartamentos {
 
   private static ComandosDepartamentos instance;
 
-  private final ComandosHospital hospitalService = ComandosHospital.getInstance();
   private final ComandosSala salaService = ComandosSala.getInstance();
   private final DepartamentoRepository deptoRepository = DepartamentoRepository.getInstance();
 
@@ -29,10 +27,10 @@ public class ComandosDepartamentos {
   }
 
   public Departamento crearDepartamento() {
-    return crearDepartamentoInteractive();
+    return ingresarDatosDepartamento();
   }
 
-  private Departamento crearDepartamentoInteractive() {
+  private Departamento ingresarDatosDepartamento() {
     System.out.println("\n=== Formulario de creacion de departamento ===");
     System.out.print("Nombre del departamento: ");
     String nombre = SCANNER.nextLine().trim();
@@ -69,47 +67,19 @@ public class ComandosDepartamentos {
     });
   }
 
-  public void mostrarMenuDepartamentos(Hospital hospital) {
-    while (true) {
-      System.out.println("\n=== Menu de Departamentos del Hospital " + hospital.getNombre() + " ===");
-      System.out.println("1. Ver departamentos");
-      System.out.println("2. Agregar departamento");
-      System.out.println("3. Agregar sala");
-      System.out.println("3. Volver al menu principal");
-      System.out.print("Seleccione una opcion > ");
-      String opcion = SCANNER.nextLine().trim();
-
-      switch (opcion) {
-        case "1":
-          mostrarDepartamentos(hospital);
-          break;
-        case "2":
-          hospitalService.agregarDepartamento(hospital);
-          break;
-        case "3":
-          agregarSala(hospital);
-          break;
-        case "4":
-          return;
-        default:
-          System.out.println("Opcion no valida, intente nuevamente.");
-      }
-    }
-  }
-
-  private void agregarSala(Hospital hospital) {
-    Sala nuevaSala = salaService.crearSala();
-
+  public void agregarSala(Hospital hospital) {
     Departamento deptoSeleccionado = seleccionarDepartamento(hospital);
+
+    Sala nuevaSala = salaService.crearSala();
     deptoSeleccionado.agregarSala(nuevaSala);
 
-    hospitalService.actualizarHospital(hospital);
-    System.out.println("\nSala agregada exitosamente al departamento " + deptoSeleccionado.getNombre());
+    deptoRepository.update(deptoSeleccionado);
+    System.out.println("\nSala agregada exitosamente al departamento " + deptoSeleccionado);
   }
 
   private Departamento seleccionarDepartamento(Hospital hospital) {
     System.out.println("\n\nSeleccione el ID del departamento al que desea agregar una sala:");
-    List<Departamento> deptos = deptoRepository.findByHospital(hospital.getId());
+    List<Departamento> deptos = deptoRepository.findByHospitalWithSalas(hospital.getId());
     while (true) {
       imprimirDepartamentosParaSeleccion(deptos);
       System.out.print("\ndepartamento > ");
@@ -130,5 +100,11 @@ public class ComandosDepartamentos {
 
   private void imprimirDepartamentosParaSeleccion(List<Departamento> deptos) {
     deptos.forEach(h -> System.out.println("ID: " + h.getId() + " - Nombre: " + h.getNombre()));
+  }
+
+  public void mostrarSalas(Hospital hospital) {
+    Departamento deptoSeleccionado = seleccionarDepartamento(hospital);
+    System.out.println("=== Salas del Departamento " + deptoSeleccionado.getNombre() + " ===");
+    salaService.mostrarSalas(deptoSeleccionado);
   }
 }
