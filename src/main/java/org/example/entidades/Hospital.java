@@ -150,26 +150,11 @@ public class Hospital {
 
   @Override
   public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("Hospital {");
-    sb.append("nombre: ").append(nombre != null ? nombre : "n/a");
-    sb.append(", direccion: ").append(direccion != null ? direccion : "n/a");
-    sb.append(", telefono: ").append(telefono != null ? telefono : "n/a");
-    sb.append(", departamentos: ");
-    if (departamentos == null || departamentos.isEmpty()) {
-      sb.append("[]");
-    } else {
-      sb.append("[");
-      for (int i = 0; i < departamentos.size(); i++) {
-        Departamento d = departamentos.get(i);
-        sb.append(d != null ? d.getNombre() : "null");
-        if (i < departamentos.size() - 1) sb.append(", ");
-      }
-      sb.append("]");
-    }
-    sb.append(", pacientes: ").append(pacientes != null ? pacientes.size() : 0);
-    sb.append("}");
-    return sb.toString();
+    return "Hospital {"
+        + "nombre: " + (nombre != null ? nombre : "n/a")
+        + ", direccion: " + (direccion != null ? direccion : "n/a")
+        + ", telefono: " + (telefono != null ? telefono : "n/a")
+        + " }";
   }
 
 

@@ -1,4 +1,4 @@
-package org.example.servicio;
+package org.example.utils;
 
 public class Utils {
   public static Long parseLongOrNull(String value) {

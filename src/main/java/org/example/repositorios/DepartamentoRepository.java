@@ -3,9 +3,7 @@ package org.example.repositorios;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceException;
 import java.util.List;
-import java.util.Optional;
 import org.example.entidades.Departamento;
-import org.example.entidades.Hospital;
 
 public class DepartamentoRepository extends GenericRepository<Departamento, Long> {
 
@@ -22,8 +20,8 @@ public class DepartamentoRepository extends GenericRepository<Departamento, Long
     return instance;
   }
 
-  public List<Departamento> findByHospital(Long hospitalId) {
-    try (EntityManager em = createEntityManager()) {
+  public List<Departamento> findByHospital(EntityManager em, Long hospitalId) {
+    try {
       return em.createQuery(
               "SELECT h FROM Departamento h WHERE h.hospital.id = :hospitalId",
               Departamento.class)
@@ -34,8 +32,8 @@ public class DepartamentoRepository extends GenericRepository<Departamento, Long
     }
   }
 
-  public List<Departamento> findByHospitalWithSalas(Long hospitalId) {
-    try (EntityManager em = createEntityManager()) {
+  public List<Departamento> findByHospitalWithSalas(EntityManager em, Long hospitalId) {
+    try {
       return em.createQuery(
               "SELECT DISTINCT d FROM Departamento d " +
                   "LEFT JOIN FETCH d.salas " +

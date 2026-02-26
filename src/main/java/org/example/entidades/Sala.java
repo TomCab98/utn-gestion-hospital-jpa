@@ -66,13 +66,10 @@ public class Sala {
 
   @Override
   public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("Sala{");
-    sb.append("numero=").append(numero != null ? numero : "n/a");
-    sb.append(", tipo=").append(tipo != null ? tipo : "n/a");
-    sb.append(", departamento=").append(departamento != null ? departamento.getNombre() : "n/a");
-    sb.append("}");
-    return sb.toString();
+    return "Sala { "
+        + "numero: " + (numero != null ? numero : "n/a")
+        + ", tipo: " + (tipo != null ? tipo : "n/a")
+        + " }";
   }
 
 

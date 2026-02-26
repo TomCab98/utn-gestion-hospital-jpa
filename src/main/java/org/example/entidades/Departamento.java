@@ -159,14 +159,10 @@ public class Departamento {
 
   @Override
   public String toString() {
-    StringBuilder sb = new StringBuilder();
-    sb.append("Departamento{");
-    sb.append("nombre=").append(nombre != null ? nombre : "n/a");
-    sb.append(", especialidad=").append(especialidad != null ? especialidad : "n/a");
-    sb.append(", medicosCount=").append(medicos != null ? medicos.size() : 0);
-    sb.append(", salasCount=").append(salas != null ? salas.size() : 0);
-    sb.append("}");
-    return sb.toString();
+    return "Departamento { "
+        + "nombre: " + (nombre != null ? nombre : "n/a")
+        + ", especialidad: " + (especialidad != null ? especialidad : "n/a")
+        + " }";
   }
 
 

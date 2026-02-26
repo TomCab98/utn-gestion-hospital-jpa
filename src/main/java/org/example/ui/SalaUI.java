@@ -1,23 +1,26 @@
-package org.example.servicio.comandos;
+package org.example.ui;
 
 import static org.example.Main.SCANNER;
 
-import org.example.entidades.Departamento;
+import java.util.List;
 import org.example.entidades.Sala;
 import org.example.entidades.enums.TipoSala;
+import org.example.servicio.SalaService;
 
-public class ComandosSala {
+public class SalaUI {
 
-  private static ComandosSala instance;
+  private static SalaUI instance;
 
-  private ComandosSala() {}
+  private SalaUI() {}
 
-  public static ComandosSala getInstance() {
+  public static SalaUI getInstance() {
     if (instance == null) {
-      instance = new ComandosSala();
+      instance = new SalaUI();
     }
     return instance;
   }
+
+  private final SalaService salaService = SalaService.getInstance();
 
   public Sala crearSala() {
     System.out.println("\n=== Formulario de creacion de sala ===");
@@ -47,10 +50,18 @@ public class ComandosSala {
         .build();
   }
 
-  public void mostrarSalas(Departamento departamento) {
-    System.out.println("=== Salas del Departamento " + departamento.getNombre() + " ===");
-    departamento.getSalas().forEach(sala -> {
-      System.out.println("Sala: " + sala.getNumero() + " - Tipo: " + sala.getTipo());
+  public void verSalas(Long departamentoId) {
+    List<Sala> salas = salaService.obtenerTodos(departamentoId);
+    if (salas.isEmpty()) {
+      System.out.println("No hay salas registrados para este departamento.");
+      return;
+    }
+
+    System.out.println("\n=== Lista de Salas ===\n");
+    salas.forEach(sala -> {
+      System.out.println("Numero: " + sala.getNumero());
+      System.out.println("Especialidad: " + sala.getTipo());
+      System.out.println("-------------------------");
     });
   }
 }
